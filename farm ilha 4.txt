@@ -1,0 +1,126 @@
+var Figth_Flag:boolean;
+     Item: TL2Item;
+     Npc: TL2Npc;
+     Obj: TL2Buff;
+     IdBuff: integer;
+     Buffs:TL2Buff;
+var L2Skill: TL2Skill;
+
+
+procedure toVillage;
+begin
+Print('To Village');
+  Delay(100);
+    if (User.HP=0) then
+      begin
+       Delay(2000);
+       Engine.GoHome;
+       Engine.Facecontrol(0,False);
+       Buff;
+      end;
+end;
+
+
+procedure buff;
+begin
+     Print('Go Buffer&apos');
+     Engine.MoveTo(81976, 147832, -3464);
+     Delay(500);
+     Engine.MoveTo(82888, 148232, -3464);
+     Delay(500);
+     Engine.MoveTo(83128, 148344, -344);
+     Delay(500);
+     Engine.Settarget(30573); 
+     Delay(100);
+     Engine.DlgOpen;
+     Delay(800);
+     Engine.DlgSel(9);	// BUFFER ARCHER P.ATK
+     Delay(800);
+      Engine.DlgSel(1);	// p.atk 
+     Delay(800);
+    Engine.Settarget(30573); 
+     Delay(100);
+     Engine.DlgOpen;
+     Delay(500);
+     Engine.DlgSel(5);
+     Delay(800);
+     Engine.DlgSel(21);	// HEROIC
+     Delay(800);
+   RunTo;
+end;
+
+
+procedure RunTo;
+begin
+     Print('Go Teleporte');
+     Engine.Settarget(31862);  //Target do NCP GK
+     Delay(500);
+     Engine.DlgOpen; // abre chat combat npc
+     Delay(500);
+     Engine.DlgSel(4);  // CUSTOM ZONES
+     Delay(500);
+     Engine.DlgSel(2);  // DROP ZONE 
+     Delay(500);
+     Engine.DlgSel(3);  // ILHA 4
+     Delay(500);
+     Fight;
+end;
+
+
+procedure toBuff;
+  begin
+  IdBuff:=1204 ;  //Check BUFF
+   while not User.Buffs.ById(IdBuff,obj) do begin
+        Print('Check Buff');
+        Engine.UseItem(7126);  //Scroll Escape
+        Delay(7000);
+        buff;
+   end;
+end;
+
+
+
+procedure Fight;
+   begin
+   Print('Fight zone');
+    Engine.MoveTo(14585, -18119, -3171);	        // LOC 1
+    Delay(500);
+    Engine.MoveTo(15272, -18376, -3176);	// LOC 2	
+    Delay(500);
+    Engine.MoveTo(16296, -18696, -3200);	// LOC 3
+    Delay(500);
+    Engine.MoveTo(16728, -18328, -3176);       //  LOC 4    Delay(500);
+    Engine.MoveTo(17545, -18131, -3208);	// LOC 5
+    Delay(500);
+    Engine.MoveTo(18632, -19224, -3269);	// LOC 6
+    Delay(500);
+    Engine.LoadConfig('1');    //ÃÃ Ã§Ã¢Ã Ã­Ã¨Ã¥ Ã‚Ã Ã¸Ã¥Ã£Ã® ÃªÃ®Ã­Ã´Ã¨Ã£Ã 
+    Engine.LoadZone('ILHA2.zmap');   //ILHA
+    Print('Ã”Ã Ã°Ã¬');
+    toVillage;
+    Engine.Facecontrol(0,True);
+end;
+
+procedure Antibot;
+   begin
+   Print('Antibot');
+    if User.InRange (82296, 148632, -3464, 7000, 7000) then
+      begin
+      Engine.UseItem(7126);  //Scroll Escape
+        Delay(7000);
+        Engine.Facecontrol(0,False);
+        buff;
+    end;
+end;
+
+
+//-----------------------------------------------------------------------------
+begin    //repete novamente o script
+Print('repete novamente');
+  repeat
+   toBuff;
+   toVillage;
+   Antibot
+  until Engine.Status = lsOffline;
+  Delay(5000);
+end.
