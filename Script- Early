@@ -1,0 +1,89 @@
+var Figth_Flag:boolean;
+     Item: TL2Item;
+     Npc: TL2Npc;
+     Obj: TL2Buff;
+     IdBuff: integer;
+     Buffs:TL2Buff;
+var L2Skill: TL2Skill;
+
+
+procedure toVillage;
+begin
+Print('To Village');
+  Delay(100);
+    if (User.HP=0) then
+      begin
+       Delay(2000);
+       Engine.GoHome;
+       Engine.Facecontrol(0,False);
+      end;
+    if User.inrange(147384, -57192, -2776, 5000, 5000) then
+      begin
+        Engine.Facecontrol(0,False);
+        Engine.UseItem(7126);  //Scroll E        Delay(7000);        buff;    
+        RunTo;    
+    end;
+
+   RunTo;
+end;
+
+
+procedure RunTo;
+begin
+     Print('Go Teleporte');
+     Engine.Settarget(31862);  //Target do NCP GK
+     Delay(1500);
+     Engine.DlgOpen; // abre chat combat npc
+     Delay(1500);
+     Engine.DlgSel(4);
+     Delay(1000);
+     Engine.DlgSel(2);
+     Delay(1000);
+     Engine.DlgSel(7);
+     Delay(1000);
+     Fight;
+end;
+
+
+procedure toBuff;
+  begin
+  IdBuff:=1204 ;  //Check BUFF
+   while not User.Buffs.ById(IdBuff,obj) do begin
+        Print('Check Buff');
+        Engine.UseItem(7126);  //Scroll Escape        Delay(7000);        buff;
+   end;
+end;
+
+
+procedure Fight;
+   begin
+   Print('Fight zone');
+    Engine.MoveTo(139592,-78376,-4392);
+    Delay(500);
+    Engine.LoadConfig('1');    //ÃÃ Ã§Ã¢Ã Ã­Ã¨Ã¥ Ã‚Ã Ã¸Ã¥Ã£Ã® ÃªÃ®Ã­Ã´Ã¨Ã£Ã 
+    Engine.LoadZone('LUCASSS.zmap');   //zona de combat
+    Print('Ã”Ã Ã°Ã¬');
+    toVillage;
+    Engine.Facecontrol(0,True);
+end;
+
+procedure Antibot;
+   begin
+   Print('Antibot');
+    if User.InRange (82296, 148632, -3464, 7000, 7000) then
+      begin
+      Engine.UseItem(7126);  //Scroll Escap       Delay(7000);        Engine.Facecontrol(0,False);        buff;
+    end;
+end;
+
+
+//-----------------------------------------------------------------------------
+begin    //repete novamente o script
+Print('repete novamente');
+  repeat
+   toBuff;
+   toVillage;
+   Antibot
+  until Engine.Status = lsOffline;
+  Delay(5000);
+end.
